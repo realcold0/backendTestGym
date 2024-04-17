@@ -34,3 +34,9 @@ docker-compose up -d
 ```
 docker-compose down
 ```
+
+### ERD CLOUD
+
+![GYMbackend](https://github.com/realcold0/backendTestGym/assets/65608503/910ba40b-9586-4008-ac6c-87e8b43da79b)
+
+
