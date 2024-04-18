@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://mariadb:${MYSQL_PORT}/${MYSQL_DATABASE}?serverTimezone=UTC
+    username: ${MYSQL_USER}
+    password: ${MYSQL_ROOT_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        default_batch_fetch_size: 100
