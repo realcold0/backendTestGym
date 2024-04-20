@@ -2,12 +2,14 @@ package com.example.backendTestGym.service;
 
 import com.example.backendTestGym.domain.Equipment;
 import com.example.backendTestGym.domain.Gym;
+import com.example.backendTestGym.dto.DeleteRequestDTO;
 import com.example.backendTestGym.dto.GymIdAndQuantityDTO;
 import com.example.backendTestGym.dto.ManyEquipmentDTO;
 import com.example.backendTestGym.dto.OneEquipmentDTO;
 import com.example.backendTestGym.repository.EquipmentRepository;
 import com.example.backendTestGym.repository.GymRepository;
 import com.example.backendTestGym.util.exception.EquipmentAlreadyExistsException;
+import com.example.backendTestGym.util.exception.EquipmentNotExistsException;
 import com.example.backendTestGym.util.exception.GymNotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.List;
@@ -67,6 +69,24 @@ public class EquipmentService {
         for (GymIdAndQuantityDTO gymIdAndQuantityDTO : gymIdAndQuantitylist) {
             addEquipmentToGym(equipName, gymIdAndQuantityDTO.getQuantity(),
                     gymIdAndQuantityDTO.getGymId());
+        }
+    }
+
+    public void deleteEquipmenttoManyGym(DeleteRequestDTO deleteRequestDTO) {
+        //id가 유효한지 검사하고
+        //해당하는 이름의 장비 제거
+        Optional<Gym> optionalGym = gymRepository.findById(deleteRequestDTO.getGymId());
+        if (optionalGym.isPresent()) {
+            Gym gym = optionalGym.get();
+            Optional<Equipment> optionalEquipment = equipmentRepository.findByGymAndName(gym,
+                    deleteRequestDTO.getName());
+            if (optionalEquipment.isPresent()) {
+                equipmentRepository.delete(optionalEquipment.get());
+            } else {
+                throw new EquipmentNotExistsException("존재하지 않는 운동 기구 입니다.");
+            }
+        } else {
+            throw new GymNotFoundException("헬스장이 존재 하지 않습니다.");
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.backendTestGym.controller;
 
 import com.example.backendTestGym.domain.Gym;
+import com.example.backendTestGym.dto.DeleteRequestDTO;
 import com.example.backendTestGym.dto.GymDTO;
 import com.example.backendTestGym.dto.ManyEquipmentDTO;
 import com.example.backendTestGym.dto.OneEquipmentDTO;
@@ -89,5 +90,13 @@ public class AdminController {
     public ResponseEntity<ManyEquipmentDTO> registerEquipToGym(@RequestBody ManyEquipmentDTO manyEquipmentDTO) {
         equipmentService.addEquipmenttoManyGym(manyEquipmentDTO);
         return ResponseEntity.status(HttpStatus.OK).body(manyEquipmentDTO);
+    }
+
+    @Operation(summary = "운동기구 삭제")
+    @ApiResponse(responseCode = "200", description = "운동기구 삭제 성공")
+    @DeleteMapping("/gym/equip")
+    public ResponseEntity<DeleteRequestDTO> DeleteEquipFromGym(@RequestBody DeleteRequestDTO deleteRequestDTO) {
+        equipmentService.deleteEquipmenttoManyGym(deleteRequestDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(deleteRequestDTO);
     }
 }

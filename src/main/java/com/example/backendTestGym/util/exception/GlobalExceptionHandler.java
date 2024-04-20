@@ -16,4 +16,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleEquipmentAlreadyExistsException(EquipmentAlreadyExistsException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
+
+    @ExceptionHandler(EquipmentNotExistsException.class)
+    public ResponseEntity<?> handleEquipmentNotExistsException(EquipmentNotExistsException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
 }
