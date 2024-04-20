@@ -9,7 +9,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,5 +37,17 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(gymDTO);
     }
 
+    @Operation(summary = "헬스장 정보 수정")
+    @ApiResponse(responseCode = "200", description = "헬스장 정보 수정 성공")
+    @PutMapping("/gym/{id}/{newName}")
+    public ResponseEntity<String> editGym(@PathVariable("id") Long id,
+                                          @PathVariable("newName") String newName) {
+        boolean updated = gymService.updateGym(id, newName);
+        if (updated) {
+            return ResponseEntity.ok("헬스장 정보 수정 성공");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
 
+    }
 }
