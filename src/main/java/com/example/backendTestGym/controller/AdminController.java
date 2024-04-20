@@ -68,8 +68,16 @@ public class AdminController {
     @Operation(summary = "운동기구 등록")
     @ApiResponse(responseCode = "200", description = "운동기구 등록 성공")
     @PostMapping("/gym/equip")
-    public ResponseEntity<EquipmentDTO> addEquipToGym(@RequestBody EquipmentDTO EquipmentDTO) {
+    public ResponseEntity<EquipmentDTO> registerEquipToGym(@RequestBody EquipmentDTO EquipmentDTO) {
         equipmentService.addEquipmentToGym(EquipmentDTO);
         return ResponseEntity.status(HttpStatus.OK).body(EquipmentDTO);
+    }
+
+    @Operation(summary = "운동기구 갯수 수정")
+    @ApiResponse(responseCode = "200", description = "운동기구 등록 성공")
+    @PutMapping("/gym/equip")
+    public ResponseEntity<EquipmentDTO> editQuantityEquipment(@RequestBody EquipmentDTO equipmentDTO) {
+        equipmentService.updateQuantityEquipment(equipmentDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(equipmentDTO);
     }
 }

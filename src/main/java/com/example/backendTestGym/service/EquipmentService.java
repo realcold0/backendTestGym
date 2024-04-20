@@ -29,4 +29,22 @@ public class EquipmentService {
             throw new GymNotFoundException("헬스장이 존재 하지 않습니다.");
         }
     }
+
+    public void updateQuantityEquipment(EquipmentDTO equipmentDTO) {
+        Optional<Gym> optionalGym = gymRepository.findById(equipmentDTO.getGymId());
+        if (optionalGym.isPresent()) {
+            Optional<Equipment> optionalEquipment = equipmentRepository.findByGymAndName(optionalGym.get(),
+                    equipmentDTO.getName());
+            if (optionalEquipment.isPresent()) {
+                Equipment equipment = optionalEquipment.get();
+                equipment.setQuantity(equipmentDTO.getQuantity());
+                equipmentRepository.save(equipment);
+            } else {
+                throw new GymNotFoundException("해당 장비가 존재 하지 않습니다.");
+            }
+        } else {
+            throw new GymNotFoundException("헬스장이 존재 하지 않습니다.");
+        }
+
+    }
 }
