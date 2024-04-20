@@ -76,8 +76,8 @@ docker-compose down
 | /admin/gym/equip-many  | POST   | 여러 헬스장에 운동기구 등록  |
 | /admin/equip           | DELETE | 기존 운동기구 삭제       |
 | /admin/equip           | POST   | 운동기구 추가          |
-| /admin/gym/rental      | POST   | 헬스장의 대여 물품 등록    |
-| /admin/gym/rental      | DELETE | 헬스장의 대여 물품 삭제    |
+| /admin/rental          | POST   | 헬스장의 대여 물품 등록    |
+| /admin/rental          | DELETE | 헬스장의 대여 물품 삭제    |
 | /admin/gym/rental-many | POST   | 여러 헬스장에 대여 물품 등록 |
 
 ### 개발 요구사항
