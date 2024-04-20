@@ -5,6 +5,7 @@ import com.example.backendTestGym.dto.DeleteEquipmentOnGymRequestDTO;
 import com.example.backendTestGym.dto.EquipmentDTO;
 import com.example.backendTestGym.dto.GymDTO;
 import com.example.backendTestGym.dto.GymEquipmentDTO;
+import com.example.backendTestGym.dto.MantyRentalItemDTO;
 import com.example.backendTestGym.dto.ManyEquipmentDTO;
 import com.example.backendTestGym.dto.RentalItemDTO;
 import com.example.backendTestGym.service.EquipmentService;
@@ -117,9 +118,18 @@ public class AdminController {
     @Operation(summary = "새로운 대여 물품 등록")
     @ApiResponse(responseCode = "200", description = "새로운 대여 물품 등록 성공")
     @PostMapping("/rental")
-    public ResponseEntity<RentalItemDTO> registerRental(@RequestBody RentalItemDTO rentalItemDTO) {
+    public ResponseEntity<RentalItemDTO> registerRentalItem(@RequestBody RentalItemDTO rentalItemDTO) {
         rentalItemService.addRentalItem(rentalItemDTO.getName());
         return ResponseEntity.status(HttpStatus.OK).body(rentalItemDTO);
     }
+
+    @Operation(summary = "여러 헬스장에 대여물품 등록")
+    @ApiResponse(responseCode = "200", description = "모두 운동기구 등록 성공")
+    @PostMapping("/rental-many")
+    public ResponseEntity<MantyRentalItemDTO> registerRentalToGym(@RequestBody MantyRentalItemDTO manyRentalItemDTO) {
+        rentalItemService.addGymRentalItemQuantityToManyGym(manyRentalItemDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(manyRentalItemDTO);
+    }
+
 
 }
