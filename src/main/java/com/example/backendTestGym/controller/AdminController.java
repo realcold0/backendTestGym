@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -45,6 +46,19 @@ public class AdminController {
         boolean updated = gymService.updateGym(id, newName);
         if (updated) {
             return ResponseEntity.ok("헬스장 정보 수정 성공");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
+    @Operation(summary = "헬스장 삭제")
+    @ApiResponse(responseCode = "200", description = "헬스장 삭제 성공")
+    @DeleteMapping("/gym/{id}")
+    public ResponseEntity<String> editGym(@PathVariable("id") Long id) {
+        boolean deleted = gymService.deleteGymById(id);
+        if (deleted) {
+            return ResponseEntity.ok("헬스장 삭제 성공");
         } else {
             return ResponseEntity.notFound().build();
         }

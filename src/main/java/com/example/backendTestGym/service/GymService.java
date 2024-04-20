@@ -26,4 +26,16 @@ public class GymService {
             return false;
         }
     }
+
+    public boolean deleteGymById(Long id) {
+        Optional<Gym> optionalGym = gymRepository.findById(id);
+        if (optionalGym.isPresent()) {
+            Gym gym = optionalGym.get();
+
+            gymRepository.delete(gym);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
