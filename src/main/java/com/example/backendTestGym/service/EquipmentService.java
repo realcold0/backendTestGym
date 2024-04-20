@@ -4,6 +4,7 @@ import com.example.backendTestGym.domain.Equipment;
 import com.example.backendTestGym.domain.Gym;
 import com.example.backendTestGym.domain.GymEquipment;
 import com.example.backendTestGym.dto.DeleteEquipmentOnGymRequestDTO;
+import com.example.backendTestGym.dto.EquipmentDTO;
 import com.example.backendTestGym.dto.GymEquipmentDTO;
 import com.example.backendTestGym.dto.GymIdAndQuantityDTO;
 import com.example.backendTestGym.dto.ManyEquipmentDTO;
@@ -123,6 +124,23 @@ public class EquipmentService {
             }
         } else {
             throw new GymNotFoundException("헬스장이 존재 하지 않습니다.");
+        }
+    }
+
+    @Transactional
+    public void deleteEquipment(EquipmentDTO equipmentDTO) {
+        Optional<Equipment> optionalEquipment = equipmentRepository.findByName(equipmentDTO.getName());
+        if (optionalEquipment.isPresent()) {
+            Equipment equipment = optionalEquipment.get();
+            //관련된 운동기구 소유 모두 제거
+            List<GymEquipment> gymEquipmentList = gymEquipmentRepository.findByEquipment(equipment);
+            if (!gymEquipmentList.isEmpty()) {
+                gymEquipmentRepository.deleteAll(gymEquipmentList);
+            }
+
+            equipmentRepository.delete(equipment);
+        } else {
+            throw new EquipmentNotExistsException("존재하지 않는 운동 기구 입니다.");
         }
     }
 }

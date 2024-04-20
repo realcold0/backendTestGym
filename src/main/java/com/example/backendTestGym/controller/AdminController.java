@@ -102,5 +102,14 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(deleteEquipmentOnGymRequestDTO);
     }
 
+    @Operation(summary = "기존 운동기구 삭제")
+    @ApiResponse(responseCode = "200", description = "운동기구 삭제 성공")
+    @DeleteMapping("/equip")
+    public ResponseEntity<EquipmentDTO> DeleteEquip(
+            @RequestBody EquipmentDTO equipmentDTO) {
+        equipmentService.deleteEquipment(equipmentDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(equipmentDTO);
+    }
+
 
 }
