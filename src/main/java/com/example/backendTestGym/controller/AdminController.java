@@ -2,10 +2,10 @@ package com.example.backendTestGym.controller;
 
 import com.example.backendTestGym.domain.Gym;
 import com.example.backendTestGym.dto.DeleteEquipmentOnGymRequestDTO;
+import com.example.backendTestGym.dto.EquipmentDTO;
 import com.example.backendTestGym.dto.GymDTO;
 import com.example.backendTestGym.dto.GymEquipmentDTO;
 import com.example.backendTestGym.dto.ManyEquipmentDTO;
-import com.example.backendTestGym.dto.RegisterEquipmentDTO;
 import com.example.backendTestGym.service.EquipmentService;
 import com.example.backendTestGym.service.GymService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -70,11 +70,11 @@ public class AdminController {
 
     @Operation(summary = "운동기구 등록")
     @ApiResponse(responseCode = "200", description = "운동기구 등록 성공")
-    @PostMapping("/gym/equip")
-    public ResponseEntity<RegisterEquipmentDTO> registerEquipToGym(
-            @RequestBody RegisterEquipmentDTO registerEquipmentDTO) {
-        equipmentService.addEquipment(registerEquipmentDTO.getName());
-        return ResponseEntity.status(HttpStatus.OK).body(registerEquipmentDTO);
+    @PostMapping("/equip")
+    public ResponseEntity<EquipmentDTO> registerEquipToGym(
+            @RequestBody EquipmentDTO equipmentDTO) {
+        equipmentService.addEquipment(equipmentDTO.getName());
+        return ResponseEntity.status(HttpStatus.OK).body(equipmentDTO);
     }
 
     @Operation(summary = "운동기구 갯수 수정")
@@ -101,4 +101,6 @@ public class AdminController {
         equipmentService.deleteEquipmentOnGym(deleteEquipmentOnGymRequestDTO);
         return ResponseEntity.status(HttpStatus.OK).body(deleteEquipmentOnGymRequestDTO);
     }
+
+
 }
