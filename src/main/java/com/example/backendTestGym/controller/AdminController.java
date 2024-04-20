@@ -6,8 +6,10 @@ import com.example.backendTestGym.dto.EquipmentDTO;
 import com.example.backendTestGym.dto.GymDTO;
 import com.example.backendTestGym.dto.GymEquipmentDTO;
 import com.example.backendTestGym.dto.ManyEquipmentDTO;
+import com.example.backendTestGym.dto.RentalItemDTO;
 import com.example.backendTestGym.service.EquipmentService;
 import com.example.backendTestGym.service.GymService;
+import com.example.backendTestGym.service.RentalItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,6 +32,7 @@ public class AdminController {
 
     private final GymService gymService;
     private final EquipmentService equipmentService;
+    private final RentalItemService rentalItemService;
 
 
     @Operation(summary = "헬스장 등록")
@@ -111,5 +114,12 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(equipmentDTO);
     }
 
+    @Operation(summary = "새로운 대여 물품 등록")
+    @ApiResponse(responseCode = "200", description = "새로운 대여 물품 등록 성공")
+    @PostMapping("/rental")
+    public ResponseEntity<RentalItemDTO> DeleteEquip(@RequestBody RentalItemDTO rentalItemDTO) {
+        rentalItemService.addRentalItem(rentalItemDTO.getName());
+        return ResponseEntity.status(HttpStatus.OK).body(rentalItemDTO);
+    }
 
 }
