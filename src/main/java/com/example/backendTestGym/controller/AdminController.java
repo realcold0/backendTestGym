@@ -131,5 +131,13 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(manyRentalItemDTO);
     }
 
+    @Operation(summary = "기존 대여물품 삭제")
+    @ApiResponse(responseCode = "200", description = "대여물품 삭제 성공")
+    @DeleteMapping("/rental")
+    public ResponseEntity<RentalItemDTO> DeleteEquip(
+            @RequestBody RentalItemDTO rentalItemDTO) {
+        rentalItemService.deleteEquipment(rentalItemDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(rentalItemDTO);
+    }
 
 }

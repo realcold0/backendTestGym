@@ -5,6 +5,7 @@ import com.example.backendTestGym.domain.GymRentalItem;
 import com.example.backendTestGym.domain.RentalItem;
 import com.example.backendTestGym.dto.GymIdAndQuantityDTO;
 import com.example.backendTestGym.dto.MantyRentalItemDTO;
+import com.example.backendTestGym.dto.RentalItemDTO;
 import com.example.backendTestGym.repository.GymRentalItemRepository;
 import com.example.backendTestGym.repository.GymRepository;
 import com.example.backendTestGym.repository.RentalItemRepository;
@@ -74,5 +75,20 @@ public class RentalItemService {
         }
     }
 
+    @Transactional
+    public void deleteEquipment(RentalItemDTO rentalItemDTO) {
+        Optional<RentalItem> optionalRentalItem = rentalItemRepository.findByName(rentalItemDTO.getName());
+        if (optionalRentalItem.isPresent()) { //대여물품 존재하면
+            RentalItem rentalItem = optionalRentalItem.get();
+            //관련된 운동기구 소유 모두 제거
+            List<GymRentalItem> gymRentalItemList = gymRentalItemRepository.findByRentalItem(rentalItem);
+            if (!gymRentalItemList.isEmpty()) {
+                gymRentalItemRepository.deleteAll(gymRentalItemList);
+            }
 
+            rentalItemRepository.delete(rentalItem);
+        } else {
+            throw new RentalItemNotExistsException("존재하지 않는 대여물품입니다.");
+        }
+    }
 }
