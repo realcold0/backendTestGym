@@ -2,7 +2,6 @@ package com.example.backendTestGym.controller;
 
 import com.example.backendTestGym.domain.Gym;
 import com.example.backendTestGym.dto.GymDTO;
-import com.example.backendTestGym.dto.GymIdAndQuantityDTO;
 import com.example.backendTestGym.dto.ManyEquipmentDTO;
 import com.example.backendTestGym.dto.OneEquipmentDTO;
 import com.example.backendTestGym.service.EquipmentService;
@@ -10,7 +9,6 @@ import com.example.backendTestGym.service.GymService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -89,13 +87,7 @@ public class AdminController {
     @ApiResponse(responseCode = "200", description = "모두 운동기구 등록 성공")
     @PostMapping("/gym/equip-many")
     public ResponseEntity<ManyEquipmentDTO> registerEquipToGym(@RequestBody ManyEquipmentDTO manyEquipmentDTO) {
-        String equipName = manyEquipmentDTO.getName();
-        List<GymIdAndQuantityDTO> gymIdAndQuantitylist = manyEquipmentDTO.getGymIdAndQuantitylist();
-
-        for (GymIdAndQuantityDTO gymIdAndQuantityDTO : gymIdAndQuantitylist) {
-            equipmentService.addEquipmentToGym(equipName, gymIdAndQuantityDTO.getQuantity(),
-                    gymIdAndQuantityDTO.getGymId());
-        }
+        equipmentService.addEquipmenttoManyGym(manyEquipmentDTO);
         return ResponseEntity.status(HttpStatus.OK).body(manyEquipmentDTO);
     }
 }

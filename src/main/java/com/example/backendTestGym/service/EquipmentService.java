@@ -2,11 +2,15 @@ package com.example.backendTestGym.service;
 
 import com.example.backendTestGym.domain.Equipment;
 import com.example.backendTestGym.domain.Gym;
+import com.example.backendTestGym.dto.GymIdAndQuantityDTO;
+import com.example.backendTestGym.dto.ManyEquipmentDTO;
 import com.example.backendTestGym.dto.OneEquipmentDTO;
 import com.example.backendTestGym.repository.EquipmentRepository;
 import com.example.backendTestGym.repository.GymRepository;
 import com.example.backendTestGym.util.exception.EquipmentAlreadyExistsException;
 import com.example.backendTestGym.util.exception.GymNotFoundException;
+import jakarta.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,12 +28,13 @@ public class EquipmentService {
             Optional<Equipment> optionalEquipment = equipmentRepository.findByGymAndName(gym, name);
             if (optionalEquipment.isPresent()) {
                 throw new EquipmentAlreadyExistsException("이미 존재하는 운동기구입니다.");
+            } else {
+                Equipment equipment = new Equipment();
+                equipment.setName(name);
+                equipment.setGym(gym);
+                equipment.setQuantity(quantity);
+                equipmentRepository.save(equipment);
             }
-            Equipment equipment = new Equipment();
-            equipment.setName(name);
-            equipment.setGym(gym);
-            equipment.setQuantity(quantity);
-            equipmentRepository.save(equipment);
         } else {
             throw new GymNotFoundException("헬스장이 존재 하지 않습니다.");
         }
@@ -54,4 +59,14 @@ public class EquipmentService {
     }
 
 
+    @Transactional
+    public void addEquipmenttoManyGym(ManyEquipmentDTO manyEquipmentDTO) {
+        String equipName = manyEquipmentDTO.getName();
+        List<GymIdAndQuantityDTO> gymIdAndQuantitylist = manyEquipmentDTO.getGymIdAndQuantitylist();
+
+        for (GymIdAndQuantityDTO gymIdAndQuantityDTO : gymIdAndQuantitylist) {
+            addEquipmentToGym(equipName, gymIdAndQuantityDTO.getQuantity(),
+                    gymIdAndQuantityDTO.getGymId());
+        }
+    }
 }

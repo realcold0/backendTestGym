@@ -11,4 +11,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleGymNotFoundException(GymNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
+
+    @ExceptionHandler(EquipmentAlreadyExistsException.class)
+    public ResponseEntity<?> handleEquipmentAlreadyExistsException(EquipmentAlreadyExistsException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
 }

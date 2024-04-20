@@ -15,6 +15,15 @@ public class GymService {
         gymRepository.save(gym);
     }
 
+    public boolean getGymById(Long gymId) {
+        Optional<Gym> optionalGym = gymRepository.findById(gymId);
+        if (optionalGym.isPresent()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean updateGym(Long id, String newName) {
         Optional<Gym> optionalGym = gymRepository.findById(id);
         if (optionalGym.isPresent()) {
