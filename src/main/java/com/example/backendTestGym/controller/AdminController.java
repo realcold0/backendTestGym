@@ -117,7 +117,7 @@ public class AdminController {
     @Operation(summary = "새로운 대여 물품 등록")
     @ApiResponse(responseCode = "200", description = "새로운 대여 물품 등록 성공")
     @PostMapping("/rental")
-    public ResponseEntity<RentalItemDTO> DeleteEquip(@RequestBody RentalItemDTO rentalItemDTO) {
+    public ResponseEntity<RentalItemDTO> registerRental(@RequestBody RentalItemDTO rentalItemDTO) {
         rentalItemService.addRentalItem(rentalItemDTO.getName());
         return ResponseEntity.status(HttpStatus.OK).body(rentalItemDTO);
     }
