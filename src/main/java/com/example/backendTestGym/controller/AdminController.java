@@ -1,12 +1,14 @@
 package com.example.backendTestGym.controller;
 
 import com.example.backendTestGym.domain.Gym;
+import com.example.backendTestGym.dto.EquipmentDTO;
 import com.example.backendTestGym.dto.GymDTO;
+import com.example.backendTestGym.service.EquipmentService;
 import com.example.backendTestGym.service.GymService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,16 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "관리자")
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/admin")
 public class AdminController {
 
     private final GymService gymService;
+    private final EquipmentService equipmentService;
 
-    @Autowired
-    public AdminController(GymService gymService) {
-        this.gymService = gymService;
-    }
 
     @Operation(summary = "헬스장 등록")
     @ApiResponse(responseCode = "200", description = "헬스장 등록 성공")
@@ -63,5 +63,13 @@ public class AdminController {
             return ResponseEntity.notFound().build();
         }
 
+    }
+
+    @Operation(summary = "운동기구 등록")
+    @ApiResponse(responseCode = "200", description = "운동기구 등록 성공")
+    @PostMapping("/gym/equip")
+    public ResponseEntity<EquipmentDTO> addEquipToGym(@RequestBody EquipmentDTO EquipmentDTO) {
+        equipmentService.addEquipmentToGym(EquipmentDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(EquipmentDTO);
     }
 }
