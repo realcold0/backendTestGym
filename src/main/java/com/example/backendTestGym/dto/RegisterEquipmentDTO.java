@@ -3,9 +3,6 @@ package com.example.backendTestGym.dto;
 import lombok.Data;
 
 @Data
-public class OneEquipmentDTO {
-    private Long gymId;
+public class RegisterEquipmentDTO {
     private String name;
-    private int quantity;
-
 }

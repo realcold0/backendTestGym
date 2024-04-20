@@ -1,10 +1,11 @@
 package com.example.backendTestGym.controller;
 
 import com.example.backendTestGym.domain.Gym;
-import com.example.backendTestGym.dto.DeleteRequestDTO;
+import com.example.backendTestGym.dto.DeleteEquipmentOnGymRequestDTO;
 import com.example.backendTestGym.dto.GymDTO;
+import com.example.backendTestGym.dto.GymEquipmentDTO;
 import com.example.backendTestGym.dto.ManyEquipmentDTO;
-import com.example.backendTestGym.dto.OneEquipmentDTO;
+import com.example.backendTestGym.dto.RegisterEquipmentDTO;
 import com.example.backendTestGym.service.EquipmentService;
 import com.example.backendTestGym.service.GymService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -70,33 +71,34 @@ public class AdminController {
     @Operation(summary = "운동기구 등록")
     @ApiResponse(responseCode = "200", description = "운동기구 등록 성공")
     @PostMapping("/gym/equip")
-    public ResponseEntity<OneEquipmentDTO> registerEquipToGym(@RequestBody OneEquipmentDTO oneEquipmentDTO) {
-        equipmentService.addEquipmentToGym(oneEquipmentDTO.getName(), oneEquipmentDTO.getQuantity(),
-                oneEquipmentDTO.getGymId());
-        return ResponseEntity.status(HttpStatus.OK).body(oneEquipmentDTO);
+    public ResponseEntity<RegisterEquipmentDTO> registerEquipToGym(
+            @RequestBody RegisterEquipmentDTO registerEquipmentDTO) {
+        equipmentService.addEquipment(registerEquipmentDTO.getName());
+        return ResponseEntity.status(HttpStatus.OK).body(registerEquipmentDTO);
     }
 
     @Operation(summary = "운동기구 갯수 수정")
     @ApiResponse(responseCode = "200", description = "운동기구 등록 성공")
     @PutMapping("/gym/equip")
-    public ResponseEntity<OneEquipmentDTO> editQuantityEquipment(@RequestBody OneEquipmentDTO oneEquipmentDTO) {
-        equipmentService.updateQuantityEquipment(oneEquipmentDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(oneEquipmentDTO);
+    public ResponseEntity<GymEquipmentDTO> editQuantityEquipment(@RequestBody GymEquipmentDTO gymEquipmentDTO) {
+        equipmentService.updateQuantityEquipment(gymEquipmentDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(gymEquipmentDTO);
     }
 
     @Operation(summary = "여러 헬스장에 운동기구 등록")
     @ApiResponse(responseCode = "200", description = "모두 운동기구 등록 성공")
     @PostMapping("/gym/equip-many")
     public ResponseEntity<ManyEquipmentDTO> registerEquipToGym(@RequestBody ManyEquipmentDTO manyEquipmentDTO) {
-        equipmentService.addEquipmenttoManyGym(manyEquipmentDTO);
+        equipmentService.addGymEquipmentQuantityFromManyGym(manyEquipmentDTO);
         return ResponseEntity.status(HttpStatus.OK).body(manyEquipmentDTO);
     }
 
-    @Operation(summary = "운동기구 삭제")
+    @Operation(summary = "Gym이 보유한 운동기구 삭제")
     @ApiResponse(responseCode = "200", description = "운동기구 삭제 성공")
     @DeleteMapping("/gym/equip")
-    public ResponseEntity<DeleteRequestDTO> DeleteEquipFromGym(@RequestBody DeleteRequestDTO deleteRequestDTO) {
-        equipmentService.deleteEquipmenttoManyGym(deleteRequestDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(deleteRequestDTO);
+    public ResponseEntity<DeleteEquipmentOnGymRequestDTO> DeleteEquipFromGym(
+            @RequestBody DeleteEquipmentOnGymRequestDTO deleteEquipmentOnGymRequestDTO) {
+        equipmentService.deleteEquipmentOnGym(deleteEquipmentOnGymRequestDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(deleteEquipmentOnGymRequestDTO);
     }
 }
