@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: jwt.yml
   datasource:
     url: jdbc:mariadb://localhost:${MYSQL_PORT}/${MYSQL_DATABASE}?serverTimezone=UTC
     username: ${MYSQL_USER}

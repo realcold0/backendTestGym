@@ -33,6 +33,15 @@ dependencies {
     //mariadb
     implementation 'org.mariadb.jdbc:mariadb-java-client:3.0.9'
 
+    //jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5', 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    //security
+    implementation 'org.springframework.security:spring-security-core'
+    implementation 'org.springframework.security:spring-security-web'
+    implementation 'org.springframework.security:spring-security-config'
+
 }
 
 tasks.named('test') {
